@@ -1,4 +1,4 @@
-package com.obemeuche.socialmediaapi.entity;
+package com.obemeuche.socialmediaapi.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +21,4 @@ public class Comment {
     private User user;
 
     private String content;
-
-//    @ManyToOne
-//    private Long commentatorId;
 }

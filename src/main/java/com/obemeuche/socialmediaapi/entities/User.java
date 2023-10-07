@@ -1,4 +1,4 @@
-package com.obemeuche.socialmediaapi.entity;
+package com.obemeuche.socialmediaapi.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
