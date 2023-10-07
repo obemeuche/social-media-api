@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 import java.util.List;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -31,9 +32,6 @@ public class User {
     private String profilePicture;
 
     private String password;
-
-    @NotNull
-    private String role;
 
     @OneToMany
     private List<Post> posts;

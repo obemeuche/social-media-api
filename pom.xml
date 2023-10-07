@@ -101,6 +101,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>prophius-social-media-api</finalName>
 	</build>
 	<repositories>
 		<repository>
