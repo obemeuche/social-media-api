@@ -1,9 +1,7 @@
 package com.obemeuche.socialmediaapi.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
@@ -19,27 +17,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    @NotNull
+    @Column(name = "USERNAME", unique = true)
     private String username;
 
-
-    @Email
-    @Column(unique = true)
-    @NotNull
+    @Column(name = "USER_EMAIL", unique = true)
     private String email;
 
+    @Column(name = "USER_PROFILE_PICTURE")
     private String profilePicture;
 
+    @Column(name = "PASSWORD")
     private String password;
 
     @OneToMany
+    @Column(name = "POST")
     private List<Post> posts;
 
     @ManyToMany
+    @Column(name = "FOLLOWERS")
     private List<User> followers;
 
     @ManyToMany
+    @Column(name = "FOLLOWING")
     private List<User> following;
 
 }

@@ -1,8 +1,10 @@
 package com.obemeuche.socialmediaapi.controller;
 
+import com.obemeuche.socialmediaapi.request.SignInRequest;
 import com.obemeuche.socialmediaapi.request.SignUpRequest;
-import com.obemeuche.socialmediaapi.response.SignUpResponse;
-import com.obemeuche.socialmediaapi.service.UserService;
+import com.obemeuche.socialmediaapi.service.SignInService;
+import com.obemeuche.socialmediaapi.service.SignUpService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class UserController {
 
-    private final UserService userService;
+    private final SignUpService signUpService;
+
+    private final SignInService signInService;
 
     @PostMapping("/api/v1/signup")
-    public ResponseEntity<SignUpResponse> signup(@RequestBody SignUpRequest signUpRequest) {
-        return userService.signUp(signUpRequest);
+    public ResponseEntity<?> signup(@RequestBody @Valid SignUpRequest signUpRequest) {
+        return signUpService.signUp(signUpRequest);
+    }
+
+    @PostMapping("/api/v1/signin")
+    public ResponseEntity<?> signin(@RequestBody SignInRequest signInRequest) {
+        return signInService.signIn(signInRequest);
     }
 
 }
