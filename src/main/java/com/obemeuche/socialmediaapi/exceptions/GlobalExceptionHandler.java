@@ -44,4 +44,12 @@ public class GlobalExceptionHandler{
         return ResponseEntity.badRequest().body(response);
     }
 
+    @ExceptionHandler(value = {PostDoesNotExistException.class})
+    public ResponseEntity<ErrorResponse> handlePostDoesNotExistException(PostDoesNotExistException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setResponseCode("99");
+        response.setResponseMsg(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }

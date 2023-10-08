@@ -1,18 +1,16 @@
 package com.obemeuche.socialmediaapi.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Data
 @Builder
 @Table(name = "user_post")
 public class Post {
@@ -25,11 +23,12 @@ public class Post {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    private int likesCount;
-
-    private Long authorId;
+    private int likes;
 
     @ManyToOne
     private User user;
+
+    @OneToMany
+    private List<Comment> comment;
 
 }
