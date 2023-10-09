@@ -52,4 +52,12 @@ public class GlobalExceptionHandler{
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = {CommentNotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleCommentNotFoundException(CommentNotFoundException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setResponseCode("99");
+        response.setResponseMsg(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -16,6 +16,10 @@ public class CommentController {
     @PostMapping("api/v1/comment/{id}")
     public ResponseEntity<?> commentOnPost(@PathVariable ("id") Long id, @RequestBody CommentRequest commentRequest){
         return commentService.commentOnPost(id, commentRequest);
+    }
 
+    @DeleteMapping("/api/v1/delete-comment/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable("id") Long id){
+        return ResponseEntity.ok(commentService.deleteComment(id));
     }
 }

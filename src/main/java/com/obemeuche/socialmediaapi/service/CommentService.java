@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface CommentService {
     ResponseEntity<?> commentOnPost(Long id, CommentRequest commentRequest);
+
+    String deleteComment(Long id);
 }

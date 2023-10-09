@@ -2,6 +2,7 @@ package com.obemeuche.socialmediaapi.service.serviceImpl;
 
 import com.obemeuche.socialmediaapi.entities.Post;
 import com.obemeuche.socialmediaapi.entities.User;
+import com.obemeuche.socialmediaapi.entities.pageCriteria.PostPage;
 import com.obemeuche.socialmediaapi.exceptions.DatabaseException;
 import com.obemeuche.socialmediaapi.exceptions.PostDoesNotExistException;
 import com.obemeuche.socialmediaapi.repositories.PostRepository;
@@ -11,6 +12,10 @@ import com.obemeuche.socialmediaapi.response.PostResponse;
 import com.obemeuche.socialmediaapi.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -93,5 +98,24 @@ public class PostServiceImpl implements PostService {
         }
 
         return new ResponseEntity<>("POST LIKED", HttpStatus.ACCEPTED);
+    }
+
+    @Override
+    public Page<Post> fetchPage(PostPage postPage) {
+        Sort sort = Sort.by(postPage.getSortDirection(), postPage.getSortBy());
+        Pageable pageable = PageRequest.of(postPage.getPageNumber(), postPage.getPageSize(), sort);
+        Page<Post> post = postRepository.findAll(pageable);
+        return post;
+    }
+
+    @Override
+    public String deletePost(Long id) {
+
+        Post post = postRepository.findById(id)
+                .orElseThrow(()-> new PostDoesNotExistException("Post not found!"));
+
+        postRepository.delete(post);
+
+        return "Post deleted successfully!";
     }
 }

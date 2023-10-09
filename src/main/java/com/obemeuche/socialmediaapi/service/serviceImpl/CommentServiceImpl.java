@@ -3,6 +3,7 @@ package com.obemeuche.socialmediaapi.service.serviceImpl;
 import com.obemeuche.socialmediaapi.entities.Comment;
 import com.obemeuche.socialmediaapi.entities.Post;
 import com.obemeuche.socialmediaapi.entities.User;
+import com.obemeuche.socialmediaapi.exceptions.CommentNotFoundException;
 import com.obemeuche.socialmediaapi.exceptions.DatabaseException;
 import com.obemeuche.socialmediaapi.exceptions.PostDoesNotExistException;
 import com.obemeuche.socialmediaapi.repositories.CommentRepository;
@@ -58,5 +59,16 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return ResponseEntity.ok().body(comment);
+    }
+
+    @Override
+    public String deleteComment(Long id) {
+
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(()-> new CommentNotFoundException("Comment not found!"));
+
+        commentRepository.delete(comment);
+
+        return "Comment deleted successfully!";
     }
 }
