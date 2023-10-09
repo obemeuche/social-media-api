@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @RequiredArgsConstructor
 @Service
@@ -56,8 +57,7 @@ public class SignUpServiceImpl implements SignUpService {
                 .email(signUpRequest.getEmail())
                 .username(signUpRequest.getUsername())
                 .password(bCryptPasswordEncoder.encode(signUpRequest.getPassword()))
-                .followers(new ArrayList<>())
-                .following(new ArrayList<>())
+                .following(new HashSet<>())
                 .posts(new ArrayList<>())
                 .build();
 

@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface PostService {
 
-    PostResponse makePost(CreatePostRequest postRequest);
+    ResponseEntity<PostResponse> makePost(CreatePostRequest postRequest);
 
-    PostResponse viewPost(Long id);
+    ResponseEntity<PostResponse> viewPost(Long id);
 
     ResponseEntity<?> likePost(Long id);
 

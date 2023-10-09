@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -20,7 +21,6 @@ public class UserResponse {
 
     private List<Post> posts;
 
-    private List<User> followers;
 
-    private List<User> following;
+    private Set<User> following;
 }

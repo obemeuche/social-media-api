@@ -1,11 +1,14 @@
 package com.obemeuche.socialmediaapi.service.serviceImpl;
 
 import com.obemeuche.socialmediaapi.entities.User;
+import com.obemeuche.socialmediaapi.exceptions.UserNotFoundException;
 import com.obemeuche.socialmediaapi.repositories.UserRepository;
 import com.obemeuche.socialmediaapi.response.UserResponse;
 import com.obemeuche.socialmediaapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,8 +52,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .email(principalUser.get().getEmail())
                 .profilePicture(principalUser.get().getProfilePicture())
                 .posts(principalUser.get().getPosts())
-                .followers(principalUser.get().getFollowers())
                 .following(principalUser.get().getFollowing())
                 .build();
+    }
+
+    @Override
+    public ResponseEntity<?> followUser(Long followerId, Long followingId) {
+
+        User follower = userRepository.findById(followerId).orElseThrow(()-> new UserNotFoundException("USER WITH FOLLOWER ID NOT FOUND"));
+        User following = userRepository.findById(followingId).orElseThrow(()-> new UserNotFoundException("USER WITH FOLLOWING ID NOT FOUND"));
+
+        if (!follower.getFollowing().contains(following)) {
+            follower.getFollowing().add(following);
+            userRepository.save(follower);
+        }
+
+        return new ResponseEntity<>("YOU ARE NOW FOLLOWING THIS USER: " + follower.getUsername(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> unfollowUser(Long followerId, Long followingId) {
+
+        User follower = userRepository.findById(followerId).orElseThrow(()-> new UserNotFoundException("USER WITH ID NOT FOUND"));
+        User following = userRepository.findById(followingId).orElseThrow(()-> new UserNotFoundException("USER WITH ID NOT FOUND"));
+
+        if (follower.getFollowing().contains(following)) {
+            follower.getFollowing().remove(following);
+            userRepository.save(follower);
+        }
+
+        return new ResponseEntity<>("YOU HAVE UNFOLLOWED THIS USER: " + follower.getUsername(), HttpStatus.OK);
     }
 }

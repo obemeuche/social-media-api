@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 @Table(name = "user_table")
 public class User {
@@ -36,13 +39,8 @@ public class User {
     private List<Post> posts;
 
     @ManyToMany
-    @Column(name = "FOLLOWERS")
-    private List<User> followers;
-
-    @ManyToMany
     @Column(name = "FOLLOWING")
-    private List<User> following;
-
+    private Set<User> following = new HashSet<>();
     @Override
     public String toString() {
         return "User{" +
@@ -52,7 +50,6 @@ public class User {
                 ", profilePicture='" + profilePicture + '\'' +
                 ", password='" + password + '\'' +
                 ", posts=" + posts.size() +
-                ", followers=" + followers.size() +
                 ", following=" + following.size() +
                 '}';
     }

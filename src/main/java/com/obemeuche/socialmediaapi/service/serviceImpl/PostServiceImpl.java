@@ -36,7 +36,7 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
 
     @Override
-    public PostResponse makePost(CreatePostRequest postRequest) {
+    public ResponseEntity<PostResponse> makePost(CreatePostRequest postRequest) {
 
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
             throw new DatabaseException("UNABLE TO SAVE POST TO THE DATABASE");
         }
 
-        return PostResponse
+        PostResponse response = PostResponse
                 .builder()
                 .postId(post.getId())
                 .content(postRequest.getPost())
@@ -66,14 +66,16 @@ public class PostServiceImpl implements PostService {
                 .comments(post.getComment())
                 .createdDate(LocalDateTime.now())
                 .build();
+
+        return ResponseEntity.ok().body(response);
     }
 
     @Override
-    public PostResponse viewPost(Long id) {
+    public ResponseEntity<PostResponse> viewPost(Long id) {
 
         Post post = postRepository.findById(id).orElseThrow(() -> new PostDoesNotExistException("POST WITH ID DOES NOT EXISTS!"));
 
-        return PostResponse
+        PostResponse response = PostResponse
                 .builder()
                 .postId(post.getId())
                 .content(post.getContent())
@@ -81,6 +83,8 @@ public class PostServiceImpl implements PostService {
                 .comments(post.getComment())
                 .createdDate(post.getCreatedDate())
                 .build();
+
+        return ResponseEntity.ok().body(response);
     }
 
     @Override

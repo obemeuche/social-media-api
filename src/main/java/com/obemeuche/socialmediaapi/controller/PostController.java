@@ -3,7 +3,6 @@ package com.obemeuche.socialmediaapi.controller;
 import com.obemeuche.socialmediaapi.entities.Post;
 import com.obemeuche.socialmediaapi.entities.pageCriteria.PostPage;
 import com.obemeuche.socialmediaapi.request.CreatePostRequest;
-import com.obemeuche.socialmediaapi.response.PostResponse;
 import com.obemeuche.socialmediaapi.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,13 +17,12 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/api/v1/create-post")
-    public PostResponse makePost(@RequestBody CreatePostRequest postRequest){
+    public ResponseEntity<?> makePost(@RequestBody CreatePostRequest postRequest){
         return postService.makePost(postRequest);
     }
 
-
     @GetMapping("/api/v1/view-post/{id}")
-    public PostResponse viewPost(@PathVariable("id") Long id){
+    public ResponseEntity<?> viewPost(@PathVariable("id") Long id){
         return postService.viewPost(id);
     }
 

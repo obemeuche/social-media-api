@@ -40,4 +40,15 @@ public class UserController {
     private UserResponse viewProfile(Principal principal){
         return userService.viewProfile(principal);
     }
+
+    @PatchMapping("/api/v1/follow-user/{followerId}/{followingId}")
+    public ResponseEntity<?> followUser(@PathVariable("followerId") Long followerId, @PathVariable("followingId") Long followingId) {
+        return userService.followUser(followerId, followingId);
+    }
+
+    @PatchMapping("/api/v1/unfollow-user/{followerId}/{followingId}")
+    public ResponseEntity<?> unfollowUser(@PathVariable("followerId") Long followerId, @PathVariable("followingId") Long followingId) {
+        return userService.followUser(followerId, followingId);
+    }
+
 }
