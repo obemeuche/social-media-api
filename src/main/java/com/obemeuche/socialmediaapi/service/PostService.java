@@ -13,6 +13,8 @@ public interface PostService {
 
     ResponseEntity<PostResponse> viewPost(Long id);
 
+    ResponseEntity<?> likePost(Long id);
+
     Page<Post> fetchPage(PostPage postPage);
 
     String deletePost(Long id);

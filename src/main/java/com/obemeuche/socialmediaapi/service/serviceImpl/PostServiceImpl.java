@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -84,6 +85,22 @@ public class PostServiceImpl implements PostService {
                 .build();
 
         return ResponseEntity.ok().body(response);
+    }
+
+    @Override
+    public ResponseEntity<?> likePost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostDoesNotExistException("POST WITH ID DOES NOT EXISTS!"));
+
+        post.setLikes(post.getLikes() + 1);
+
+        try {
+            postRepository.save(post);
+        }catch (Exception e){
+            log.info("UNABLE TO SAVE LIKED POST TO THE DATABASE. REASON: " + e);
+            throw new DatabaseException("UNABLE TO SAVE LIKED POST TO THE DATABASE");
+        }
+
+        return new ResponseEntity<>("POST LIKED", HttpStatus.ACCEPTED);
     }
 
     @Override
