@@ -18,8 +18,6 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
-//    private Long postId;
-
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     @JsonIgnore

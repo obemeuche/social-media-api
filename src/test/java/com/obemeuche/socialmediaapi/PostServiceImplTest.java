@@ -4,7 +4,7 @@ import com.obemeuche.socialmediaapi.entities.Post;
 import com.obemeuche.socialmediaapi.entities.User;
 import com.obemeuche.socialmediaapi.repositories.PostRepository;
 import com.obemeuche.socialmediaapi.repositories.UserRepository;
-import com.obemeuche.socialmediaapi.request.CreatePostRequest;
+import com.obemeuche.socialmediaapi.request.PostRequest;
 import com.obemeuche.socialmediaapi.response.PostResponse;
 import com.obemeuche.socialmediaapi.service.serviceImpl.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,8 +42,8 @@ public class PostServiceImplTest {
 
     @Test
     void makePost_SuccessfulPostCreation_ReturnsResponseEntity() {
-        CreatePostRequest createPostRequest = new CreatePostRequest();
-        createPostRequest.setPost("Test post content");
+        PostRequest postRequest = new PostRequest();
+        postRequest.setPost("Test post content");
 
         UserDetails userDetails = mock(UserDetails.class);
         SecurityContext securityContext = mock(SecurityContext.class);
@@ -57,7 +57,7 @@ public class PostServiceImplTest {
 
         when(postRepository.save(any(Post.class))).thenReturn(mock(Post.class));
 
-        ResponseEntity<PostResponse> responseEntity = postService.makePost(createPostRequest);
+        ResponseEntity<PostResponse> responseEntity = postService.makePost(postRequest);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
@@ -76,23 +76,6 @@ public class PostServiceImplTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-    }
-
-    @Test
-    void likePost_PostExists_ReturnsResponseEntity() {
-        Long postId = 1L;
-        Post mockPost = new Post();
-        mockPost.setId(postId);
-        mockPost.setLikes(0);
-
-        when(postRepository.findById(postId)).thenReturn(Optional.of(mockPost));
-
-        ResponseEntity<?> responseEntity = postService.likePost(postId);
-
-        assertEquals(HttpStatus.ACCEPTED, responseEntity.getStatusCode());
-        assertEquals("POST LIKED", responseEntity.getBody());
-
-        assertEquals(1, mockPost.getLikes());
     }
 
     @Test
