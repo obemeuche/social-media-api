@@ -53,10 +53,9 @@ public class PostServiceImpl implements PostService {
             throw new DatabaseException("UNABLE TO SAVE POST TO THE DATABASE");
         }
 
-        log.info("Principal: " + principalUser);
-
         return PostResponse
                 .builder()
+                .postId(post.getId())
                 .content(postRequest.getPost())
                 .likes(post.getLikes())
                 .comments(post.getComment())
@@ -71,6 +70,7 @@ public class PostServiceImpl implements PostService {
 
         return PostResponse
                 .builder()
+                .postId(post.getId())
                 .content(post.getContent())
                 .likes(post.getLikes())
                 .comments(post.getComment())
@@ -83,12 +83,14 @@ public class PostServiceImpl implements PostService {
 
         Post post = postRepository.findById(id).orElseThrow(() -> new PostDoesNotExistException("POST WITH ID DOES NOT EXISTS!"));
 
-        Post likePost = Post
-                .builder()
-                .likes(post.getLikes() + 1)
-                .build();
+        post.setLikes(post.getLikes() + 1);
 
-        postRepository.save(likePost);
+        try {
+            postRepository.save(post);
+        }catch (Exception e){
+            log.info("UNABLE TO SAVE LIKED POST TO THE DATABASE. REASON: " + e);
+            throw new DatabaseException("UNABLE TO SAVE LIKED POST TO THE DATABASE");
+        }
 
         return new ResponseEntity<>("POST LIKED", HttpStatus.ACCEPTED);
     }

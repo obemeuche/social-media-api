@@ -1,20 +1,21 @@
 package com.obemeuche.socialmediaapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Getter
 @Builder
 @Table(name = "user_table")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(name = "USERNAME", unique = true)
@@ -29,7 +30,8 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     @Column(name = "POST")
     private List<Post> posts;
 
@@ -41,4 +43,17 @@ public class User {
     @Column(name = "FOLLOWING")
     private List<User> following;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", password='" + password + '\'' +
+                ", posts=" + posts.size() +
+                ", followers=" + followers.size() +
+                ", following=" + following.size() +
+                '}';
+    }
 }

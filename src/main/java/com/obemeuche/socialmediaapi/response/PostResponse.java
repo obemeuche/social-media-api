@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 public class PostResponse {
 
+    private Long postId;
     private String content;
     private LocalDateTime createdDate;
     private int likes;
