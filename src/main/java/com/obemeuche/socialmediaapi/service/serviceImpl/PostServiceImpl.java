@@ -140,6 +140,7 @@ public class PostServiceImpl implements PostService {
             } catch (Exception e){
                 throw new DatabaseException("UNABLE TO CONNECT TO THE DATABASE. REASON: " + e);
             }
+
         }else {
 
             // converting the string request date to LocalDateTime
@@ -150,6 +151,10 @@ public class PostServiceImpl implements PostService {
             } catch (Exception e) {
                 throw new DatabaseException("UNABLE TO CONNECT TO THE DATABASE. REASON: " + e);
             }
+        }
+
+        if(post.isEmpty()){
+            throw new PostDoesNotExistException("NO POST AVAILABLE FOR DISPLAY");
         }
 
         return ResponseEntity.ok().body(post);
