@@ -3,7 +3,7 @@ services:
   app:
     image: prophius-social-media-api:latest
     ports:
-      - "8080:8080"
+      - "9090:9090"
     volumes:
       - ./your-java-app-config:/app/config
     environment:

@@ -18,4 +18,6 @@ public interface PostService {
     Page<Post> fetchPage(PostPage postPage);
 
     String deletePost(Long id);
+
+    ResponseEntity<?> viewPostByDate(String date);
 }

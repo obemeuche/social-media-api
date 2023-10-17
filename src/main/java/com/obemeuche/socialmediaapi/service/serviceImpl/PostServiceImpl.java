@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -120,5 +121,40 @@ public class PostServiceImpl implements PostService {
         postRepository.delete(post);
 
         return "Post deleted successfully!";
+    }
+
+    @Override
+    public ResponseEntity<?> viewPostByDate(String date) {
+
+        //getting current date
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        //getting date for 7 days ago
+        LocalDateTime sevenDaysAgo = currentDate.minusDays(7);
+
+        List<Post> post;
+
+        if(date == null){
+            try {
+                post = postRepository.findPostByCreatedDateBetween(sevenDaysAgo, currentDate);
+            } catch (Exception e){
+                throw new DatabaseException("UNABLE TO CONNECT TO THE DATABASE. REASON: " + e);
+            }
+        }else {
+
+            // converting the string request date to LocalDateTime
+            LocalDateTime creationDate = LocalDateTime.parse(date);
+
+            try {
+                post = postRepository.findPostByCreatedDate(creationDate);
+            } catch (Exception e) {
+                throw new DatabaseException("UNABLE TO CONNECT TO THE DATABASE. REASON: " + e);
+            }
+        }
+
+        return ResponseEntity.ok().body(post);
+
+        //The product team wants to be able to see the posts by their
+        // creation dates, the default filter will be for the last 7 days if there is no date specified
     }
 }
