@@ -31,8 +31,9 @@ public class UserController {
         return signUpService.signUp(signUpRequest);
     }
 
-    @PostMapping("/api/v1/signin")
-    public ResponseEntity<?> signin(@RequestBody SignInRequest signInRequest) {
+    @PostMapping("/api/v1/sign-in")
+    public ResponseEntity<?> signin(@RequestBody @Valid SignInRequest signInRequest) {
+        log.info("Controller");
         return signInService.signIn(signInRequest);
     }
 

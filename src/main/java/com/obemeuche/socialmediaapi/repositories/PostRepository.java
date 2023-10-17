@@ -14,8 +14,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findPostByCreatedDateBetween(LocalDateTime lastSevenDays, LocalDateTime currentDate);
 
-//    List<Post> findPostByCreatedDateBetween
-
-//    @Query(value = "SELECT * FROM user_post WHERE ", nativeQuery = true)
-//    Post findDefaultPost();
 }

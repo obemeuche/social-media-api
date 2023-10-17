@@ -33,6 +33,7 @@ public class SignInServiceImpl implements SignInService{
 
     @Override
     public ResponseEntity<SignInResponse> signIn(SignInRequest signInRequest) {
+        log.info("Service Class");
 
         //checks if user exists
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(signInRequest.getEmail())
